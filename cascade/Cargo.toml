@@ -1,0 +1,34 @@
+[package]
+name = "cascade"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.85"
+description = "Authenticated, manual-cascade file encryption CLI"
+license = "MIT OR Apache-2.0"
+
+[dependencies]
+aes = { version = "0.9.2", default-features = false, features = ["zeroize"] }
+aes-gcm-siv = { version = "0.12.0", default-features = false, features = ["aes", "alloc", "zeroize"] }
+cbc = { version = "0.2.1", default-features = false, features = ["alloc", "block-padding", "zeroize"] }
+chacha20poly1305 = { version = "0.11.0", default-features = false, features = ["alloc", "zeroize"] }
+getrandom = "0.4.3"
+hkdf = "0.13.0"
+hmac = { version = "0.13.0", features = ["zeroize"] }
+libc = "0.2.189"
+serpent = { version = "0.6.0", features = ["zeroize"] }
+sha2 = { version = "0.11.0", default-features = false, features = ["zeroize"] }
+thiserror = "2.0.20"
+threefish = { version = "0.6.0", default-features = false, features = ["cipher", "zeroize"] }
+zeroize = "1.9.0"
+
+[target.'cfg(unix)'.dependencies]
+rustix = { version = "1.1.4", features = ["fs", "process"] }
+
+[dev-dependencies]
+tempfile = "3.27.0"
+
+[profile.release]
+lto = "thin"
+codegen-units = 1
+overflow-checks = true
+strip = "symbols"

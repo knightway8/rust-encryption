@@ -1,0 +1,19 @@
+[package]
+name = "x14"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.97.1"
+publish = false
+
+[dependencies]
+cipher = { version = "=0.5.2", features = ["stream-wrapper"] }
+dstu8845 = { version = "=1.0.0", default-features = false, features = ["zeroize"] }
+hmac = "=0.13.0"
+sha2 = "=0.11.0"
+getrandom = "=0.4.3"
+scrypt = "=0.11.0"
+rpassword = "=7.5.4"
+tempfile = "=3.27.0"
+
+[lints.rust]
+unsafe_code = "forbid"

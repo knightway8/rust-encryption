@@ -1,0 +1,32 @@
+[package]
+name = "secure"
+version = "1.0.0"
+edition = "2024"
+rust-version = "1.97"
+description = "A Linux-only, password-based authenticated file encryption CLI"
+publish = false
+
+[dependencies]
+age = { version = "=0.12.1", default-features = false }
+getrandom = "=0.4.3"
+rpassword = "=7.5.4"
+rustix = { version = "=1.1.4", features = ["event", "fs", "process", "pty", "termios"] }
+signal-hook = { version = "=0.4.4", default-features = false }
+thiserror = "=2.0.20"
+
+[dev-dependencies]
+proptest = "=1.11.0"
+tempfile = "=3.27.0"
+
+[lints.rust]
+unsafe_code = "forbid"
+
+[lints.clippy]
+all = "warn"
+pedantic = "warn"
+
+[profile.release]
+codegen-units = 1
+lto = "thin"
+overflow-checks = true
+strip = "symbols"

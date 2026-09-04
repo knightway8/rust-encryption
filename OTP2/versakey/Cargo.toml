@@ -1,0 +1,28 @@
+[package]
+name = "versakey"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.97.1"
+default-run = "versakey"
+description = "Linux-only deterministic key-file generators"
+
+[dependencies]
+aes = { version = "0.9.2", features = ["zeroize"] }
+argon2 = { version = "0.5.3", features = ["zeroize"] }
+blake3 = { version = "1.8.6", features = ["zeroize"] }
+chacha20 = { version = "0.10.1", features = ["zeroize"] }
+ctr = { version = "0.10.1", features = ["zeroize"] }
+pbkdf2 = { version = "0.13.0", features = ["sha2"] }
+rpassword = "7.5.4"
+scrypt = "0.12.0"
+tempfile = "3.27.0"
+zeroize = "1.9.0"
+
+[lints.rust]
+unsafe_code = "forbid"
+
+[profile.release]
+codegen-units = 1
+lto = "thin"
+overflow-checks = true
+strip = "symbols"

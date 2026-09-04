@@ -1,0 +1,22 @@
+[package]
+name = "be"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.85"
+description = "Reliable, interoperable file encryption using the age v1 format"
+
+[dependencies]
+age = { version = "0.12.1", default-features = false }
+anyhow = "1.0"
+clap = { version = "4.5", features = ["derive"] }
+sha2 = "0.10"
+tempfile = "3.21"
+
+[dev-dependencies]
+proptest = "1.7"
+
+[profile.release]
+codegen-units = 1
+lto = "thin"
+overflow-checks = true
+strip = "symbols"

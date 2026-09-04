@@ -1,0 +1,33 @@
+[package]
+name = "multicrypt"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.85"
+description = "Authenticated multi-algorithm file encryption CLI"
+license = "MIT OR Apache-2.0"
+exclude = ["*.bat", "src/*.bat"]
+
+[dependencies]
+aes = { version = "0.9.2", features = ["zeroize"] }
+aes-gcm-siv = { version = "0.12.0", features = ["zeroize"] }
+aegis = { version = "0.9.15", default-features = false, features = ["std", "pure-rust"] }
+ascon-aead = { version = "0.6.0", features = ["zeroize"] }
+ctr = { version = "0.10.1", features = ["zeroize"] }
+getrandom = "0.3"
+hkdf = "0.13.0"
+hmac = { version = "0.13.0", features = ["zeroize"] }
+rabbit = { version = "0.5.0", features = ["zeroize"] }
+serpent = { version = "0.6.0", features = ["zeroize"] }
+sha2 = { version = "0.11.0", features = ["zeroize"] }
+tempfile = "3.27.0"
+thiserror = "2.0"
+threefish = { version = "0.6.0", features = ["zeroize"] }
+zeroize = { version = "1.9.0", features = ["derive"] }
+
+[dev-dependencies]
+hex = "0.4.3"
+
+[profile.release]
+lto = "thin"
+codegen-units = 1
+strip = "symbols"

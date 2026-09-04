@@ -1,0 +1,34 @@
+[package]
+name = "threefish1024"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.85"
+description = "Authenticated streaming file encryption using Threefish-1024"
+license = "MIT"
+documentation = "https://docs.rs/threefish1024"
+
+[dependencies]
+clap = { version = "4.6.1", features = ["derive"] }
+getrandom = { version = "0.4.3", features = ["std"] }
+hkdf = "0.13.0"
+hmac = { version = "0.13.0", features = ["zeroize"] }
+same-file = "1.0.6"
+sha2 = { version = "0.11.0", features = ["zeroize"] }
+tempfile = "3.27.0"
+thiserror = "2.0.20"
+threefish = { version = "0.6.0", default-features = false, features = ["zeroize"] }
+zeroize = { version = "1.9.0", features = ["derive"] }
+
+[target.'cfg(unix)'.dependencies]
+libc = "0.2.189"
+
+[dev-dependencies]
+hex-literal = "1.1.0"
+proptest = "1.11.0"
+
+[lints.rust]
+unsafe_code = "forbid"
+
+[lints.clippy]
+all = "warn"
+pedantic = "warn"

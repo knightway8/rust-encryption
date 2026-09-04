@@ -1,0 +1,18 @@
+[package]
+name = "x3"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.97.1"
+publish = false
+
+[dependencies]
+aead = { version = "=0.6.1", features = ["alloc"] }
+ascon-aead = "=0.6.0"
+getrandom = "=0.4.3"
+pbkdf2 = "=0.12.2"
+sha2 = "=0.10.9"
+rpassword = "=7.5.4"
+tempfile = "=3.27.0"
+
+[lints.rust]
+unsafe_code = "forbid"

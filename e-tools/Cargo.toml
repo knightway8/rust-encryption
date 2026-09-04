@@ -1,0 +1,9 @@
+[workspace]
+exclude = ["x18/vendor/norx"]
+resolver = "3"
+members = ["x*"]
+
+[profile.release]
+codegen-units = 1
+lto = "thin"
+strip = "symbols"

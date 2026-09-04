@@ -1,0 +1,17 @@
+[package]
+name = "x13"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.97.1"
+publish = false
+
+[dependencies]
+aead = { version = "=0.5.2", features = ["alloc"] }
+snowv-gcm = { version = "=0.1.0", features = ["rust-crypto", "zeroize"] }
+getrandom = "=0.4.3"
+argon2 = "=0.5.3"
+rpassword = "=7.5.4"
+tempfile = "=3.27.0"
+
+[lints.rust]
+unsafe_code = "forbid"

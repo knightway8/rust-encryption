@@ -1,0 +1,17 @@
+[package]
+name = "x2"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.97.1"
+publish = false
+
+[dependencies]
+aead = { version = "=0.6.1", features = ["alloc"] }
+chacha20poly1305 = "=0.11.0"
+getrandom = "=0.4.3"
+scrypt = "=0.11.0"
+rpassword = "=7.5.4"
+tempfile = "=3.27.0"
+
+[lints.rust]
+unsafe_code = "forbid"

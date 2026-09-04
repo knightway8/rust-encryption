@@ -1,0 +1,16 @@
+[package]
+name = "x26"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.97.1"
+publish = false
+
+[dependencies]
+cryptography-rs = "=0.6.2"
+getrandom = "=0.4.3"
+scrypt = "=0.11.0"
+rpassword = "=7.5.4"
+tempfile = "=3.27.0"
+
+[lints.rust]
+unsafe_code = "forbid"

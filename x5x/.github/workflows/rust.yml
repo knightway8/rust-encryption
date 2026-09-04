@@ -1,0 +1,46 @@
+name: Rust build and test
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    name: Compile and test
+
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - windows-latest
+          - ubuntu-latest
+          - macos-latest
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - name: Download repository
+        uses: actions/checkout@v6
+
+      - name: Install Rust 1.97.1
+        run: >
+          rustup toolchain install 1.97.1
+          --profile minimal
+          --component clippy
+          --component rustfmt
+
+      - name: Check formatting
+        run: cargo fmt --all -- --check
+
+      - name: Check code with Clippy
+        run: cargo clippy --all-targets --all-features --locked -- -D warnings
+
+      - name: Compile all release programs
+        run: cargo build --release --bins --locked
+
+      - name: Run all 3,291 tests
+        run: cargo test --all-targets --locked

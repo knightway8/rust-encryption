@@ -1,0 +1,19 @@
+[package]
+name = "x40"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.97.1"
+publish = false
+
+[dependencies]
+getrandom = "=0.4.3"
+hmac = "=0.12.1"
+pbkdf2 = "=0.12.2"
+sha2 = "=0.10.9"
+rpassword = "=7.5.4"
+tempfile = "=3.27.0"
+zeroize = "=1.9.0"
+sm4 = { version = "=0.6.0", features = ["zeroize"] }
+
+[lints.rust]
+unsafe_code = "forbid"

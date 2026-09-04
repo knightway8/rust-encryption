@@ -1,0 +1,18 @@
+[package]
+name = "x19"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.97.1"
+publish = false
+
+[dependencies]
+grain-128aeadv2 = "=0.1.2"
+getrandom = "=0.4.3"
+argon2 = "=0.5.3"
+hmac = "=0.13.0"
+sha2 = "=0.11.0"
+rpassword = "=7.5.4"
+tempfile = "=3.27.0"
+
+[lints.rust]
+unsafe_code = "forbid"

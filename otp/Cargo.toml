@@ -1,0 +1,20 @@
+[package]
+name = "otp"
+version = "0.1.0"
+edition = "2024"
+description = "A misuse-resistant, authenticated one-time-pad file encryption tool"
+
+[dependencies]
+clap = { version = "4.6.0", features = ["derive"] }
+getrandom = "0.4.2"
+hmac = "0.12.1"
+same-file = "1.0.6"
+sha2 = "0.10.9"
+subtle = "2.6.1"
+tempfile = "3.27.0"
+thiserror = "2.0.18"
+zeroize = "1.8.2"
+
+[dev-dependencies]
+assert_cmd = "2.2.2"
+predicates = "3.1.4"
