@@ -94,7 +94,7 @@ pub(super) fn open(
         || iv.len() != IV_LEN
         || tag.len() != TAG_LEN
         || ciphertext.is_empty()
-        || ciphertext.len() % BLOCK_LEN != 0
+        || !ciphertext.len().is_multiple_of(BLOCK_LEN)
     {
         return Err(AppError::DecryptionFailed);
     }

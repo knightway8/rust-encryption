@@ -32,7 +32,13 @@ impl InstalledBinary {
         });
         let source = Path::new(env!("CARGO_BIN_EXE_cascade"));
         fs::copy(source, &path).unwrap();
-        fs::File::open(&path).unwrap().sync_all().unwrap();
+        // Windows requires write access for FlushFileBuffers (File::sync_all).
+        fs::OpenOptions::new()
+            .write(true)
+            .open(&path)
+            .unwrap()
+            .sync_all()
+            .unwrap();
         #[cfg(unix)]
         {
             use std::os::unix::fs::PermissionsExt;

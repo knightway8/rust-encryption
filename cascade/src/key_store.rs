@@ -353,10 +353,9 @@ impl KeyStore {
             if let Err(error) = self
                 .bound_directory
                 .unlink(OsStr::new(algorithm.key_filename()))
+                && first_error.is_none()
             {
-                if first_error.is_none() {
-                    first_error = Some(error);
-                }
+                first_error = Some(error);
             }
         }
         if first_error.is_none() && !created.is_empty() {
@@ -386,10 +385,10 @@ fn cleanup_temporaries<'directory>(
 ) -> Option<TemporaryCleanupError> {
     let mut first_error = None;
     for (_, temporary) in temporaries {
-        if let Err(error) = temporary.cleanup() {
-            if first_error.is_none() {
-                first_error = Some(error);
-            }
+        if let Err(error) = temporary.cleanup()
+            && first_error.is_none()
+        {
+            first_error = Some(error);
         }
     }
     first_error
