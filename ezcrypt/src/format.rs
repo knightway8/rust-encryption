@@ -165,7 +165,7 @@ impl Header {
             return Ok(0);
         }
         let chunk = u64::from(CHUNK_SIZE);
-        let chunks = self.plaintext_len / chunk + u64::from(self.plaintext_len % chunk != 0);
+        let chunks = self.plaintext_len.div_ceil(chunk);
         if chunks == u64::MAX {
             return Err(FormatError::SizeOverflow);
         }

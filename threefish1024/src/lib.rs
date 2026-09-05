@@ -473,14 +473,14 @@ struct ThreefishCtr {
 impl ThreefishCtr {
     fn new(key: &[u8; KEY_LEN], tweak: &[u8; TWEAK_LEN]) -> Self {
         let mut key_words = Zeroizing::new([0_u64; 16]);
-        for (word, bytes) in key_words.iter_mut().zip(key.chunks_exact(8)) {
+        for (word, bytes) in key_words.iter_mut().zip(key.as_chunks::<8>().0) {
             let mut little_endian = [0_u8; 8];
             little_endian.copy_from_slice(bytes);
             *word = u64::from_le_bytes(little_endian);
             little_endian.zeroize();
         }
         let mut tweak_words = [0_u64; 2];
-        for (word, bytes) in tweak_words.iter_mut().zip(tweak.chunks_exact(8)) {
+        for (word, bytes) in tweak_words.iter_mut().zip(tweak.as_chunks::<8>().0) {
             let mut little_endian = [0_u8; 8];
             little_endian.copy_from_slice(bytes);
             *word = u64::from_le_bytes(little_endian);
@@ -518,7 +518,7 @@ impl ThreefishCtr {
         let mut words = [0_u64; 16];
         words[0] = self.counter;
         self.cipher.encrypt_block_u64(&mut words);
-        for (chunk, word) in self.keystream.chunks_exact_mut(8).zip(words) {
+        for (chunk, word) in self.keystream.as_chunks_mut::<8>().0.iter_mut().zip(words) {
             chunk.copy_from_slice(&word.to_le_bytes());
         }
         words.zeroize();
@@ -712,6 +712,10 @@ fn set_private_permissions(file: &File, display_path: &Path) -> Result<(), Error
 }
 
 #[cfg(not(unix))]
+#[expect(
+    clippy::unnecessary_wraps,
+    reason = "Keeps the fallible Unix implementation's signature"
+)]
 fn set_private_permissions(_file: &File, _display_path: &Path) -> Result<(), Error> {
     Ok(())
 }
@@ -731,6 +735,10 @@ fn validate_key_permissions(path: &Path, metadata: &Metadata) -> Result<(), Erro
 }
 
 #[cfg(not(unix))]
+#[expect(
+    clippy::unnecessary_wraps,
+    reason = "Keeps the fallible Unix implementation's signature"
+)]
 fn validate_key_permissions(_path: &Path, _metadata: &Metadata) -> Result<(), Error> {
     Ok(())
 }
@@ -863,7 +871,7 @@ mod tests {
         let mut words = [0_u64; 16];
         cipher.encrypt_block_u64(&mut words);
         let mut actual = [0_u8; BLOCK_LEN];
-        for (chunk, word) in actual.chunks_exact_mut(8).zip(words) {
+        for (chunk, word) in actual.as_chunks_mut::<8>().0.iter_mut().zip(words) {
             chunk.copy_from_slice(&word.to_le_bytes());
         }
         assert_eq!(actual, expected);

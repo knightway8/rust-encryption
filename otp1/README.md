@@ -239,7 +239,7 @@ cargo test --all-targets
 cargo clippy --all-targets --all-features -- -D warnings
 ```
 
-The project declares Rust 1.97 as its minimum supported toolchain. For CI and
+The project declares Rust 1.98.1 as its minimum supported toolchain. For CI and
 release builds, add Cargo's `--locked` option (for example,
 `cargo test --locked --all-targets`) so the command fails if the checked-in
 dependency resolution would need to change.

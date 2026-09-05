@@ -394,7 +394,20 @@ fn open_regular_input(path: &Path) -> Result<(File, u64)> {
             .map_err(|source| FileCryptError::io("open input", path, io::Error::from(source)))?;
         File::from(descriptor)
     };
-    #[cfg(not(unix))]
+    #[cfg(windows)]
+    let file = {
+        use std::os::windows::fs::OpenOptionsExt;
+        use windows_sys::Win32::Storage::FileSystem::FILE_FLAG_BACKUP_SEMANTICS;
+
+        // Open directories for metadata inspection, then reject them below.
+        // File::open otherwise returns AccessDenied before the type check.
+        fs::OpenOptions::new()
+            .read(true)
+            .custom_flags(FILE_FLAG_BACKUP_SEMANTICS)
+            .open(path)
+            .map_err(|source| FileCryptError::io("open input", path, source))?
+    };
+    #[cfg(not(any(unix, windows)))]
     let file = File::open(path).map_err(|source| FileCryptError::io("open input", path, source))?;
 
     let metadata = file
@@ -515,12 +528,14 @@ mod tests {
             }
         }
 
-        if encoded.len() % 2 != 0 {
+        if !encoded.len().is_multiple_of(2) {
             return None;
         }
         encoded
             .as_bytes()
-            .chunks_exact(2)
+            .as_chunks::<2>()
+            .0
+            .iter()
             .map(|pair| Some((nibble(pair[0])? << 4) | nibble(pair[1])?))
             .collect()
     }

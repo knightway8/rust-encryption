@@ -2,6 +2,7 @@
 name = "otp"
 version = "0.1.0"
 edition = "2024"
+rust-version = "1.98.1"
 description = "A misuse-resistant, authenticated one-time-pad file encryption tool"
 
 [dependencies]

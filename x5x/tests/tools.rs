@@ -122,7 +122,9 @@ fn keymake_is_deterministic_and_not_a_repeated_short_block() {
     let first_block = &first[..64];
     assert!(
         first[64..]
-            .chunks_exact(64)
+            .as_chunks::<64>()
+            .0
+            .iter()
             .any(|block| block != first_block)
     );
 }

@@ -182,6 +182,6 @@ RUSTDOCFLAGS="-D warnings" cargo doc --locked --no-deps
 cargo build --locked --release --bins
 ```
 
-The package is Linux-only, declares Rust 1.97.1 as its minimum, and pins Rust
-1.97.1 for development and Ubuntu 24.04 CI. Dependencies are locked; CI checks
+The package is Linux-only, declares Rust 1.98.1 as its minimum, and pins Rust
+1.98.1 for development and Ubuntu 24.04 CI. Dependencies are locked; CI checks
 formatting, tests, Clippy warnings, documentation, and release builds.

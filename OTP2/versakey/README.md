@@ -8,10 +8,10 @@ twice with hidden input.
 ## Requirements
 
 - Linux. Other targets are rejected at compile time.
-- Rust 1.97.1 or newer and Cargo's Rust 2024 edition support.
+- Rust 1.98.1 or newer and Cargo's Rust 2024 edition support.
 - `rustfmt` and Clippy for the complete local quality checks.
 
-The checked-in `rust-toolchain.toml` pins Rust 1.97.1 with the minimal profile,
+The checked-in `rust-toolchain.toml` pins Rust 1.98.1 with the minimal profile,
 `rustfmt`, and Clippy so ordinary `cargo` commands use the tested toolchain.
 You can explicitly select a newer compatible toolchain if needed.
 

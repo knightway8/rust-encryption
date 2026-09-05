@@ -264,6 +264,9 @@ fn read_only_key_is_accepted_without_mutating_contents_or_metadata() {
     let key_path = fixture.key_path();
     fixture.write_key(&key);
 
+    #[cfg(windows)]
+    let original_permissions = fs::metadata(&key_path).unwrap().permissions();
+
     #[cfg(unix)]
     {
         use std::os::unix::fs::PermissionsExt;
@@ -309,9 +312,7 @@ fn read_only_key_is_accepted_without_mutating_contents_or_metadata() {
 
         // Let the fixture remove its directory on Windows, where a read-only
         // attribute can otherwise prevent cleanup.
-        let mut permissions = key_after.permissions();
-        permissions.set_readonly(false);
-        fs::set_permissions(&key_path, permissions).unwrap();
+        fs::set_permissions(&key_path, original_permissions).unwrap();
     }
 }
 

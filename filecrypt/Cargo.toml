@@ -2,7 +2,7 @@
 name = "filecrypt"
 version = "1.0.0"
 edition = "2024"
-rust-version = "1.85"
+rust-version = "1.98.1"
 description = "Authenticated streaming file encryption with strict no-overwrite semantics"
 license = "MIT"
 

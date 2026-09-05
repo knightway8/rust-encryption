@@ -301,7 +301,7 @@ fn encryption_is_randomized_and_does_not_expose_repeated_plaintext_blocks() {
     assert_ne!(first, second, "fresh encryptions must use fresh randomness");
 
     let ciphertext = &first[HEADER_LEN..HEADER_LEN + original.len()];
-    let blocks: Vec<&[u8]> = ciphertext.chunks_exact(128).collect();
+    let blocks = ciphertext.as_chunks::<128>().0;
     for pair in blocks.windows(2) {
         assert_ne!(
             pair[0], pair[1],

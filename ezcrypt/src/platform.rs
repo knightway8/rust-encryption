@@ -787,7 +787,7 @@ fn has_alternate_streams(file: &File) -> io::Result<bool> {
             return Ok(true);
         }
         let name_bytes = (*info).StreamNameLength as usize;
-        if name_bytes % 2 != 0
+        if !name_bytes.is_multiple_of(2)
             || offset_of!(FILE_STREAM_INFO, StreamName) + name_bytes > BUFFER_BYTES
         {
             return Err(io::Error::new(

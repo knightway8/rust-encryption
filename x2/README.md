@@ -4,8 +4,8 @@
 supports AES-256-GCM-SIV and XChaCha20-Poly1305, streams large files in bounded
 chunks, and does not overwrite an existing destination.
 
-The project is pinned to Rust **1.98.0**, the latest stable release on
-2026-08-20. Build it with:
+The project is pinned to Rust **1.98.1**, the latest stable release on
+2026-09-03. Build it with:
 
 ```console
 cargo build --release --locked

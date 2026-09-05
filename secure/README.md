@@ -9,7 +9,7 @@ format.
 
 - Linux kernel 5.6 or newer (`openat2` is used to reject symlinks throughout
   input and output-directory paths)
-- Rust 1.97 or newer to build
+- Rust 1.98.1 or newer to build
 - About 256 MiB of available memory per encryption or decryption
 - An output filesystem with Linux `O_TMPFILE` support for decryption (required
   so unauthenticated temporary plaintext never has a pathname)

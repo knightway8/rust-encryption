@@ -2,7 +2,7 @@
 name = "threefish1024"
 version = "0.1.0"
 edition = "2024"
-rust-version = "1.85"
+rust-version = "1.98.1"
 description = "Authenticated streaming file encryption using Threefish-1024"
 license = "MIT"
 documentation = "https://docs.rs/threefish1024"

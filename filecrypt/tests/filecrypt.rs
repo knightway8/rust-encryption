@@ -1291,6 +1291,12 @@ fn assert_no_temporary_files(directory: &Path) {
 }
 
 fn write_private(path: &Path, contents: &[u8]) {
+    #[cfg(windows)]
+    if !path.exists() {
+        // Use the production creator to install the required protected DACL;
+        // overwriting the bytes below retains that DACL.
+        generate_key_file(path).expect("create private Windows test file");
+    }
     fs::write(path, contents).expect("write private test file");
     #[cfg(unix)]
     {

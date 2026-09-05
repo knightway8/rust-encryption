@@ -782,8 +782,8 @@ fn aligned_blocks_do_not_repeat_in_large_fixture() {
     let key = fixed_key(101);
     let output = stream(&key, 1024 * 1024, 7777);
     let mut blocks = HashSet::with_capacity(output.len() / 16);
-    for block in output.chunks_exact(16) {
-        assert!(blocks.insert(<[u8; 16]>::try_from(block).unwrap()));
+    for block in output.as_chunks::<16>().0 {
+        assert!(blocks.insert(*block));
     }
     assert_eq!(blocks.len(), output.len() / 16);
 }
@@ -792,10 +792,7 @@ fn aligned_blocks_do_not_repeat_in_large_fixture() {
 fn aligned_blocks_stay_unique_across_many_keys() {
     for seed in 0..=63_u8 {
         let output = stream(&fixed_key(seed), 16 * 512, 1009);
-        let blocks: HashSet<[u8; 16]> = output
-            .chunks_exact(16)
-            .map(|block| <[u8; 16]>::try_from(block).unwrap())
-            .collect();
+        let blocks: HashSet<[u8; 16]> = output.as_chunks::<16>().0.iter().copied().collect();
         assert_eq!(blocks.len(), 512, "seed {seed}");
     }
 }

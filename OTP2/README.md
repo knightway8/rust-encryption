@@ -21,7 +21,7 @@ using it:
 ## Build requirements
 
 All packages are intended specifically for Linux, use Cargo edition 2024, and
-require Rust 1.97.1 or newer. Each package pins Rust 1.97.1 for reproducible
+require Rust 1.98.1 or newer. Each package pins Rust 1.98.1 for reproducible
 development and CI while declaring it as the minimum supported version.
 
 Build one application at a time, for example:

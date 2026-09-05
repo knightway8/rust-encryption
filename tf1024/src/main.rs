@@ -321,12 +321,46 @@ fn file_path(directory: &Path, name: &Path, role: &str) -> Result<PathBuf> {
 fn bare_name<'a>(path: &'a Path, role: &str) -> Result<&'a OsStr> {
     let mut components = path.components();
     match (components.next(), components.next()) {
-        (Some(Component::Normal(name)), None) => Ok(name),
+        (Some(Component::Normal(name)), None) => {
+            #[cfg(windows)]
+            validate_windows_name(name, role)?;
+            Ok(name)
+        }
         _ => bail!(
             "{role} must be a bare file name in the executable directory, not a path: {}",
             path.display()
         ),
     }
+}
+
+#[cfg(windows)]
+fn validate_windows_name(name: &OsStr, role: &str) -> Result<()> {
+    use std::os::windows::ffi::OsStrExt;
+
+    let text = name.to_string_lossy();
+    let stem = text.split('.').next().unwrap_or_default().trim_end();
+    let reserved = ["CON", "PRN", "AUX", "NUL", "CONIN$", "CONOUT$"]
+        .iter()
+        .any(|device| stem.eq_ignore_ascii_case(device))
+        || ["COM", "LPT"].iter().any(|prefix| {
+            stem.get(..3)
+                .is_some_and(|start| start.eq_ignore_ascii_case(prefix))
+                && matches!(
+                    stem.get(3..),
+                    Some("1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9" | "¹" | "²" | "³")
+                )
+        });
+    if text.ends_with(['.', ' '])
+        || reserved
+        || name
+            .encode_wide()
+            .any(|unit| unit < 32 || (*b"<>:\"|?*").map(u16::from).contains(&unit))
+    {
+        bail!(
+            "{role} must be an ordinary Windows file name without device names, streams, or trailing dots/spaces"
+        );
+    }
+    Ok(())
 }
 
 fn names_equal(left: &OsStr, right: &OsStr) -> bool {
@@ -605,6 +639,29 @@ mod tests {
             fs::read(directory.path().join("exists.bin")).unwrap(),
             b"keep me"
         );
+    }
+
+    #[cfg(windows)]
+    #[test]
+    fn rejects_windows_key_aliases_and_special_names() {
+        for name in [
+            "key.key.",
+            "key.key ",
+            "key.key:secret",
+            "NUL",
+            "con.txt",
+            "COM1",
+            "lpt9.bin",
+            "bad?name",
+            "bad*name",
+            "bad\"name",
+        ] {
+            assert!(
+                bare_name(Path::new(name), "input").is_err(),
+                "accepted {name}"
+            );
+        }
+        assert!(bare_name(Path::new("normal name.bin"), "input").is_ok());
     }
 
     #[test]

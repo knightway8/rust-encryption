@@ -10,7 +10,7 @@
 
 x5x combines the complete x3x collection of small, separate file-encryption
 and key-tool binaries with the x4x streaming password-encryption CLI. All 22
-executables remain independently usable. The workspace is pinned to Rust 1.97.1
+executables remain independently usable. The workspace is pinned to Rust 1.98.1
 and builds with the local Rust toolchain. Every supported platform discovers
 3,291 tests: 3,289 run in the default suite and two intentionally expensive
 tests are ignored unless explicitly requested.

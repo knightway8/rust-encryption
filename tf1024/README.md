@@ -16,6 +16,8 @@ tf1024 D input.bin.tf1024 recovered.bin
 `keygen` creates a raw 128-byte `key.key`. The key, input, and output are always
 looked up beside the executable. Arguments must therefore be bare file names,
 not paths. Existing output files and an existing key are never overwritten.
+On Windows, device names, alternate data streams, and names ending in a dot or
+space are rejected so aliases cannot bypass the protection for `key.key`.
 
 Back up `key.key` securely. Losing it makes encrypted files unrecoverable. Anyone
 who obtains it can decrypt the files.
@@ -49,6 +51,8 @@ or long-term data, prefer a widely reviewed format such as age unless
 Threefish-1024 is a firm interoperability requirement.
 
 ## Build and test
+
+Rust 1.98.1 is required and pinned in `rust-toolchain.toml`.
 
 ```text
 cargo test

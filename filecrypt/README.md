@@ -6,7 +6,7 @@ authenticated records, and refuses to replace any existing output.
 
 ## Build
 
-Requires Rust 1.85 or newer:
+Requires Rust 1.98.1 or newer:
 
 ```console
 cargo build --release

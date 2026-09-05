@@ -61,6 +61,24 @@ fn missing_input_fails_before_a_password_prompt() {
     assert!(!String::from_utf8_lossy(&output.stderr).contains("Password:"));
 }
 
+#[test]
+fn directory_input_is_reported_without_prompting_or_creating_output() {
+    let directory = tempfile::tempdir().expect("temporary directory");
+    let destination = directory.path().join("output");
+    let result = x2()
+        .args(["E", "AES"])
+        .arg(directory.path())
+        .arg(&destination)
+        .stdin(std::process::Stdio::null())
+        .output()
+        .expect("run x2 with a directory input");
+    assert_eq!(result.status.code(), Some(1));
+    let error = String::from_utf8_lossy(&result.stderr);
+    assert!(error.contains("regular file"), "{error}");
+    assert!(!error.contains("Password:"));
+    assert!(!destination.exists());
+}
+
 #[cfg(unix)]
 #[test]
 fn failed_stdout_and_stderr_never_panic() {

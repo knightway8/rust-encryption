@@ -16,7 +16,7 @@ binary master key.
 
 ## Build and install
 
-Rust 1.85 or newer is required.
+Rust 1.98.1 or newer is required.
 
 ```console
 cargo build --release --locked

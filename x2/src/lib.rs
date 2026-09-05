@@ -786,6 +786,14 @@ fn open_regular_input(path: &Path) -> Result<(File, u64), CryptoError> {
         use std::os::unix::fs::OpenOptionsExt;
         options.custom_flags(libc::O_NONBLOCK);
     }
+    #[cfg(windows)]
+    {
+        use std::os::windows::fs::OpenOptionsExt;
+        // FILE_FLAG_BACKUP_SEMANTICS permits directory handles, allowing the
+        // metadata check below to return InputNotRegular instead of AccessDenied.
+        const FILE_FLAG_BACKUP_SEMANTICS: u32 = 0x0200_0000;
+        options.custom_flags(FILE_FLAG_BACKUP_SEMANTICS);
+    }
     let file = options
         .open(path)
         .map_err(|source| path_io("cannot open input", path, source))?;

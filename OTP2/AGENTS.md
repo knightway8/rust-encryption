@@ -26,13 +26,13 @@ without a new repository-level decision.
 Every package must:
 
 - use Cargo edition `2024`;
-- declare `rust-version = "1.97.1"` as its minimum supported Rust version;
-- include a `rust-toolchain.toml` pinned to Rust `1.97.1` with the minimal
+- declare `rust-version = "1.98.1"` as its minimum supported Rust version;
+- include a `rust-toolchain.toml` pinned to Rust `1.98.1` with the minimal
   profile plus `clippy` and `rustfmt`; and
-- keep its lockfile and dependencies compatible with Rust 1.97.1.
+- keep its lockfile and dependencies compatible with Rust 1.98.1.
 
 Newer Rust versions may also be used deliberately, but code and dependencies
-must continue to compile with the declared Rust 1.97.1 minimum.
+must continue to compile with the declared Rust 1.98.1 minimum.
 
 ## Application boundaries
 

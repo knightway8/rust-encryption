@@ -2,7 +2,7 @@
 name = "ezcrypt"
 version = "0.1.0"
 edition = "2024"
-rust-version = "1.85"
+rust-version = "1.98.1"
 description = "Crash-safe, authenticated file encryption for Windows 11"
 license = "MIT OR Apache-2.0"
 

@@ -21,7 +21,7 @@ features of this package.
 ## Platform and key requirements
 
 `otp2` supports Linux only. Windows, macOS, BSD, and other targets fail at
-compile time. The checked-in toolchain and CI use Rust 1.97.1 and Ubuntu 24.04;
+compile time. The checked-in toolchain and CI use Rust 1.98.1 and Ubuntu 24.04;
 production deployments must also qualify their exact kernel, filesystem, mount
 options, and storage stack.
 
@@ -139,6 +139,6 @@ RUSTDOCFLAGS="-D warnings" cargo doc --locked --no-deps
 cargo build --locked --release --bins
 ```
 
-The project requires and pins Rust 1.97.1. CI runs on
+The project requires and pins Rust 1.98.1. CI runs on
 Linux, the checkout action is pinned to an immutable commit, and Cargo plus
 GitHub Actions dependencies are tracked by Dependabot.

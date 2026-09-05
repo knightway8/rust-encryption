@@ -108,3 +108,51 @@ fn real_cli_uses_production_encryption_and_preserves_exact_data() {
         assert!(!captured.windows(16).any(|part| part == &data[..16]));
     }
 }
+
+#[test]
+fn real_cli_rejects_damaged_ciphertext_without_publishing_plaintext() {
+    let directory = TempDir::new().unwrap();
+    let input = directory.path().join("plain.bin");
+    let encrypted = directory.path().join("cipher.bin");
+    let damaged = directory.path().join("damaged.bin");
+    let output = directory.path().join("recovered.bin");
+    fs::write(&input, b"production KDF authentication regression").unwrap();
+    assert!(run_cli("E", &input, &encrypted).status.success());
+    let original = fs::read(&encrypted).unwrap();
+    let mut altered = original.clone();
+    *altered.last_mut().unwrap() ^= 1;
+    let mut appended = original.clone();
+    appended.push(0);
+    for bytes in [altered, original[..original.len() - 1].to_vec(), appended] {
+        fs::write(&damaged, bytes).unwrap();
+        let result = run_cli("D", &damaged, &output);
+        assert!(!result.status.success());
+        assert!(
+            !output.exists(),
+            "failed authentication published plaintext"
+        );
+        assert_eq!(fs::read(&encrypted).unwrap(), original);
+        assert_eq!(
+            fs::read(&input).unwrap(),
+            b"production KDF authentication regression"
+        );
+        assert_eq!(
+            fs::read_dir(directory.path()).unwrap().count(),
+            3,
+            "failed authentication left a staging file behind"
+        );
+    }
+}
+
+#[test]
+fn real_cli_preserves_existing_destination() {
+    let directory = TempDir::new().unwrap();
+    let input = directory.path().join("input.bin");
+    let output = directory.path().join("existing.bin");
+    fs::write(&input, b"source must survive").unwrap();
+    fs::write(&output, b"destination must survive").unwrap();
+    assert!(!run_cli("E", &input, &output).status.success());
+    assert_eq!(fs::read(&input).unwrap(), b"source must survive");
+    assert_eq!(fs::read(&output).unwrap(), b"destination must survive");
+    assert_eq!(fs::read_dir(directory.path()).unwrap().count(), 2);
+}

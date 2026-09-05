@@ -167,11 +167,16 @@ fn seal_record(
     let full_len = message.len() / norx::constant::BLOCK_LENGTH * norx::constant::BLOCK_LENGTH;
     let mut process = norx::Norx::new(key, nonce).encrypt(aad);
     for (input, output) in message[..full_len]
-        .chunks_exact(norx::constant::BLOCK_LENGTH)
-        .zip(output[..full_len].chunks_exact_mut(norx::constant::BLOCK_LENGTH))
+        .as_chunks::<{ norx::constant::BLOCK_LENGTH }>()
+        .0
+        .iter()
+        .zip(
+            output[..full_len]
+                .as_chunks_mut::<{ norx::constant::BLOCK_LENGTH }>()
+                .0
+                .iter_mut(),
+        )
     {
-        let input = input.try_into().map_err(|_| integrity_error())?;
-        let output = output.try_into().map_err(|_| integrity_error())?;
         process.process(std::iter::once((input, output)));
     }
     process.finalize(key, b"", &message[full_len..], &mut output[full_len..]);
@@ -193,11 +198,16 @@ fn open_record(
     let mut output = vec![0_u8; plaintext_len];
     let mut process = norx::Norx::new(key, nonce).decrypt(aad);
     for (input, output) in ciphertext[..full_len]
-        .chunks_exact(norx::constant::BLOCK_LENGTH)
-        .zip(output[..full_len].chunks_exact_mut(norx::constant::BLOCK_LENGTH))
+        .as_chunks::<{ norx::constant::BLOCK_LENGTH }>()
+        .0
+        .iter()
+        .zip(
+            output[..full_len]
+                .as_chunks_mut::<{ norx::constant::BLOCK_LENGTH }>()
+                .0
+                .iter_mut(),
+        )
     {
-        let input = input.try_into().map_err(|_| integrity_error())?;
-        let output = output.try_into().map_err(|_| integrity_error())?;
         process.process(std::iter::once((input, output)));
     }
     if !process.finalize(key, b"", &ciphertext[full_len..], &mut output[full_len..]) {
