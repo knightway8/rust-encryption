@@ -1,0 +1,7 @@
+# Published ciphertext fixtures must remain byte-for-byte identical on every OS.
+tests/vectors/* -text -diff -whitespace
+# Preserve archived helpers, upstream license texts, and recorded command output.
+legacy/* -text -whitespace
+third-party-licenses/** -whitespace
+validation/*.log -whitespace
+*.bat text eol=crlf

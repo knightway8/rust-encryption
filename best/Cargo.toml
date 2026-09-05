@@ -1,0 +1,48 @@
+[package]
+name = "best"
+version = "1.0.0"
+edition = "2024"
+rust-version = "1.98.1"
+description = "Careful, streaming file encryption using the interoperable age format"
+license = "MIT OR Apache-2.0"
+publish = false
+
+[dependencies]
+age = "0.12.1"
+clap = { version = "4.5", features = ["derive"] }
+ctrlc = { version = "3.5", features = ["termination"] }
+rpassword = "7.4"
+tempfile = "3.27"
+thiserror = "2"
+zeroize = "1.8"
+
+[target.'cfg(unix)'.dependencies]
+libc = "0.2"
+
+[target.'cfg(windows)'.dependencies]
+windows-sys = { version = "0.61", features = ["Win32_Foundation", "Win32_Security", "Win32_Security_Authorization", "Win32_Storage_FileSystem"] }
+
+[dev-dependencies]
+proptest = "1.9"
+rstest = "0.26"
+sha2 = "0.10"
+flate2 = "1.1"
+
+[profile.release]
+lto = "thin"
+codegen-units = 1
+strip = "debuginfo"
+overflow-checks = true
+
+[profile.dev.package.scrypt]
+opt-level = 3
+[profile.dev.package.salsa20]
+opt-level = 3
+[profile.dev.package.sha2]
+opt-level = 3
+
+[lints.rust]
+unsafe_op_in_unsafe_fn = "deny"
+
+[lints.clippy]
+undocumented_unsafe_blocks = "deny"

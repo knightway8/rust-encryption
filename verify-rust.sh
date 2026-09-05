@@ -2,7 +2,7 @@
 # Run from any directory on Linux. Each OTP2 package keeps its own build output.
 set -uo pipefail
 root=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
-projects=(algos be cascade e-tools filecrypt multicrypt otp otp1 secure tf1024 threefish1024 versakey x2 x5x OTP2/otp2 OTP2/otp2-auth OTP2/versakey)
+projects=(algos be best cascade e-tools filecrypt multicrypt otp otp1 secure tf1024 threefish1024 versakey x2 x5x OTP2/otp2 OTP2/otp2-auth OTP2/versakey)
 if (( $# )); then projects=("$@"); fi
 failed=()
 for project in "${projects[@]}"; do

@@ -1,6 +1,6 @@
 [CmdletBinding()]
 param(
-    [string[]]$Projects = @('algos','be','cascade','e-tools','ezcrypt','filecrypt','multicrypt','otp','otp1','tf1024','threefish1024','versakey','x2','x5x'),
+    [string[]]$Projects = @('algos','be','best','cascade','e-tools','ezcrypt','filecrypt','multicrypt','otp','otp1','tf1024','threefish1024','versakey','x2','x5x'),
     [switch]$BuildRelease,
     [switch]$SkipSlow
 )

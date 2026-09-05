@@ -17,6 +17,7 @@ limitations. This page is a guide to finding your way around.
 | Project | Overview |
 | --- | --- |
 | [be](be/README.md) | Public-key file encryption using the standard age v1 format and X25519 recipient keys. |
+| [best](best/README.md) | Streaming age v1 encryption with passwords or multiple X25519 recipients, protected temporary files, full-file verification, and no-overwrite output. Includes 675 Windows tests. |
 | [cascade](cascade/README.md) | Applies one encryption layer at a time, with separate keys for AES, Serpent, XChaCha, and Threefish layers. File operations require Unix. |
 | [ezcrypt](ezcrypt/README.md) | Windows file encryption using a password and a single path. The `.ez` extension selects encryption or decryption; successful operations replace the source with the completed output. |
 | [filecrypt](filecrypt/README.md) | Streaming encryption with a binary key file, using AES-256-GCM-SIV or XChaCha20-Poly1305. |
@@ -102,6 +103,12 @@ update across **67 application packages**, including the 50 `e-tools` members.
 It reports **4,889 passing Windows tests**, plus formatting, Clippy, and
 documentation checks. Linux-only packages passed compilation and lint checks;
 their runtime tests still require a Linux environment.
+
+The separately validated [best app](best/VALIDATION.md) adds 675 passing Windows
+tests in both debug and release profiles, published age test vectors, and
+interoperability checks with the official Go age implementation. Its Linux code
+and tests were compile checked; its dedicated CI workflow covers Windows, Linux,
+and macOS.
 
 To repeat the available checks, run the appropriate script from the repository
 root:

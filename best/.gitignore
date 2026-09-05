@@ -1,0 +1,9 @@
+/target/
+/dist/
+/fuzz/target/
+/fuzz/artifacts/
+/fuzz/corpus/
+*.age
+*.key
+*.identity
+*.best-tmp*

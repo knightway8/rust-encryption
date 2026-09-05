@@ -1,0 +1,3 @@
+PASS: 24 independent plaintext hash comparisons; 11 sizes through 64 MiB, both encryption directions, verification and multiple recipients.
+v1.3.2
+best 1.0.0
