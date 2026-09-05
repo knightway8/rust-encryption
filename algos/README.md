@@ -30,7 +30,7 @@ The complete ID, binary, key, nonce, tag, and status table is in
 
 ## Build
 
-Rust 1.85 or newer is required.
+Rust 1.98.1 or newer is required.
 
 ```text
 cargo build --release --bins
